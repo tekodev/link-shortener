@@ -1,29 +1,22 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
 
-try {
-    $db = new PDO("mysql:host=localhost;dbname=shot_link;charset=utf8", "root", "");
-} catch ( PDOException $e ){
-    print $e->getMessage();
-}
-
-
-
+include 'database.php';
 $link = $_POST['link'];
 if($link == "") {
     die ("Lütfen tüm alanları doldurunuz.");
 } else {
-    $hash = checkLinkIsRecorded($link,$db);
+    $hash = checkLinkIsRecorded($link, $db);
     if(!is_null($hash)){
-        echo "http://localhost:5000/".$hash;
+        echo getUrlWithBaseUrl($hash);
         exit;
     }
-    $hash = generateRandomString(5);
-    $isUnique = checkHashIsUnique($hash,$db);
 
+    $hash = generateRandomString(5);
+    $isUnique = checkHashIsUnique($hash, $db);
     while(!$isUnique){
         $hash = generateRandomString(5);
-        $isUnique = checkHashIsUnique($hash,$db);
+        $isUnique = checkHashIsUnique($hash, $db);
     }
 
     $query = $db->prepare("INSERT INTO link SET
@@ -37,7 +30,7 @@ if($link == "") {
 
     if ( $insert ){
         $last_id = $db->lastInsertId();
-        echo "http://localhost:5000/".$hash;
+        echo getUrlWithBaseUrl($hash);
     } else {
         echo "Teknik Hata";
     }
@@ -63,5 +56,9 @@ function generateRandomString($length = 25) {
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+
+function getUrlWithBaseUrl($hash) {
+    return getenv('BASE_URL') . "/" . $hash;
 }
 ?>
