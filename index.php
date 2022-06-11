@@ -1,10 +1,6 @@
 <?php
 
-try {
-    $db = new PDO("mysql:host=localhost;dbname=shot_link;charset=utf8", "root", "");
-} catch ( PDOException $e ){
-    print $e->getMessage();
-}
+include 'database.php';
 
 
 $hash = explode('/', $_SERVER['REQUEST_URI'])[1];
@@ -12,8 +8,12 @@ if($hash){
     $controller = $db->query("SELECT link FROM link WHERE hash = '$hash'")->fetch(PDO::FETCH_OBJ);
 
     if($controller){
-        $yon = $controller->link;
-        header("Location: http://".$yon);
+        $link = $controller->link;
+        if (strpos($link, "http") !== 0 && strpos($link, "https") !== 0) {
+            $link = 'http://' . $link;
+        }
+
+        header("Location: " . $link);
     }
 }
 ?>
