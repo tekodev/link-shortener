@@ -30,18 +30,51 @@ if($hash){
 </head>
 <body>
     
-    <div>
-        <h2>
-            Link Kısaltıcı
-        </h2>
+    <div class="divim">
+    <h2>
+    Link Shortener
+    </h2>
+        
 
-        <input type="text"name="link" id="link" required placeholder="Link Giriniz." />
-		<button type="submit" id="linkver">Link'i Kısalt</button>
-
+        <!--<input type="text"name="link" id="link" required placeholder="Link Giriniz." />-->
+        <div class="form">
+            <input type="text" name="link" id="link" autocomplete="off" required />
+                <label for="text" class="label-name">
+                    <span class="content-name">
+                        Your Link
+                    </span>
+                </label>
+        </div>
+		<!--<button type="submit" id="linkver">Link'i Kısalt</button>-->
+        <button id="linkver" type="submit" >
+            <p id="btnText">Shortent</p>
+            <div class="check-box">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+                    <path fill="transparent" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                </svg>
+            </div>
+        </button>
+        <label for="area"><h3>Shortened Link</h3></label>
+    <input class="textarea" type="textarea" name="area" id="area"/>
+    <footer><p style="margin-top:85px">© 2022 Designed by tækodev.</p></footer>
     </div>
-    <br>
-    <label for="area"><h4>Kısaltılmış Linkiniz</h4></label>
-    <input type="textarea" name="area" id="area"/>
+    
+    
 
+
+    
+        
+
+
+   
+    <script type="text/javascript">
+        const btn = document.querySelector("#linkver");
+        const btnText = document.querySelector("#btnText");
+
+        btn.onclick = () => {
+            btnText.innerHTML = "Done";
+            btn.classList.add("active");
+        };
+    </script>
 </body>
 </html>
